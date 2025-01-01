@@ -1,0 +1,87 @@
+/* style.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+}
+
+header {
+    background-color: #1e1e2f;
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+header h1 span {
+    color: #ff5252;
+}
+
+#search-bar {
+    padding: 0.5rem;
+    width: 60%;
+    margin-top: 1rem;
+}
+
+#search-btn {
+    padding: 0.5rem 1rem;
+    background-color: #ff5252;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+    background-color: #1e1e2f;
+    list-style: none;
+}
+
+nav li {
+    margin: 0 1rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+nav li:hover {
+    background-color: #ff5252;
+}
+
+#movies-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.movie-card {
+    background-color: #232336;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.movie-card img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.movie-card h3 {
+    margin: 0.5rem 0 0;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #1e1e2f;
+}
