@@ -5,30 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie App</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>Awesome <span>Movie App</span></h1>
-            <input type="text" id="search-bar" placeholder="Search Movies...">
-            <button id="search-btn">Search</button>
-        </div>
-    </header>
     <nav>
+        <div class="logo">
+            <img src="/images/Group 2.png" alt="Logo" />
+        </div>
         <ul>
-            <li>Movies</li>
-            <li>TV Shows</li>
-            <li>Suggest Me</li>
+            <li class="nav-item" id="movies">Movies</li>
+            <li class="nav-item" id="tvshows">TV Shows</li>
+            <li class="nav-item" id="suggestme">Suggest Me</li>
         </ul>
     </nav>
+
+    <header>
+        <div class="header-container">
+            <p>Mailehereko</p>
+          <h1 id="page-title"></h1>
+            <div class="search">
+                <div><i class="fas fa-search"></i></div> <!-- Font Awesome Search Icon -->
+                <div><input type="text" id="search-bar" placeholder="Search Movies..." oninput="searchMovies()"></div>
+            </div>
+        </div>
+    </header>
+
     <main>
-        <section id="movies-section">
+        <section id="movies-section" class="page">
             <!-- Movie cards dynamically added here -->
         </section>
+        <section id="tvshows-section" class="page">
+            <!-- TV shows content -->
+        </section>
+        <section id="suggestme-section" class="page">
+            <!-- Suggest Me content -->
+        </section>
     </main>
+
     <footer>
-        <p>For educational use only</p>
+          <div class="logo">
+            <img src="/images/Group 2.png" alt="Logo" />
+        </div>
+        <p>A fun and personal project created by <span class="co">Ejimofor Godswill.</span> Source code <br/> available on <span class="co">GitHub.</span> Open for pull request. Clone and use <br/> personally. It's up to you.</p>
     </footer>
-    <script src="app.js"></script>
+
+    <script src="./ app.js"></script>
 </body>
 </html>
