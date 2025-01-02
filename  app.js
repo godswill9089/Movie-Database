@@ -1,6 +1,5 @@
-const API_KEY = '4f61f7544e060a195ceb386311077a15';
-const BASE_URL = 'https://api.themoviedb.org/3';
-
+const API_KEY = '9b25001b'; // Your OMDB API key
+const BASE_URL = 'http://www.omdbapi.com/';
 
 const moviesSection = document.getElementById('movies-section');
 const tvShowsSection = document.getElementById('tvshows-section');
@@ -12,35 +11,35 @@ const moviesPage = document.getElementById('movies');
 const tvShowsPage = document.getElementById('tvshows');
 const suggestMePage = document.getElementById('suggestme');
 
-const navLinks = document.querySelectorAll('nav li');// Assuming your links are inside a <nav> element
+const navLinks = document.querySelectorAll('nav li'); // Assuming your links are inside a <nav> element
 const pageTitle = document.getElementById('page-title');
 
 // Event listeners for navigation
 moviesPage.addEventListener('click', () => {
     showPage('movies');
-    fetchMovies(); // Initial fetch
-    setActiveLink(moviesPage); // Set active state
-     updatePageTitle('Movies'); 
+    fetchMovies(); // Fetch initial movies
+    setActiveLink(moviesPage);
+    updatePageTitle('Movies');
 });
 
 tvShowsPage.addEventListener('click', () => {
     showPage('tvshows');
-    fetchTVShows();
+    fetchTVShows(); // Fetch initial TV shows
     setActiveLink(tvShowsPage);
-      updatePageTitle('TV Shows'); 
+    updatePageTitle('TV Shows');
 });
 
 suggestMePage.addEventListener('click', () => {
     showPage('suggestme');
-    fetchSuggestedMovies();
+    fetchSuggestedMovies(); // Fetch initial suggested movies
     setActiveLink(suggestMePage);
-     updatePageTitle('Suggest Me');
+    updatePageTitle('Suggest Me');
 });
 
+// Function to update the page title
 function updatePageTitle(title) {
-    pageTitle.textContent = title; // Set the text content of the page title
+    pageTitle.textContent = title;
 }
-
 
 // Function to switch pages
 function showPage(page) {
@@ -59,28 +58,18 @@ function showPage(page) {
 
 // Function to set the active class on the clicked link
 function setActiveLink(activeLink) {
-    // Remove the 'active' class from all links
     navLinks.forEach(link => link.classList.remove('active'));
-
-    // Add the 'active' class to the clicked link
     activeLink.classList.add('active');
 }
 
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    setActiveLink(moviesPage); // Set the Movies link as active by default
-      updatePageTitle('Movies');
-});
-
 // Fetch Movies based on the query
-async function fetchMovies(query) {
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`;
+async function fetchMovies(query = 'avengers') {
+    const url = `${BASE_URL}?apikey=${API_KEY}&s=${encodeURIComponent(query)}&type=movie`;
     try {
         const response = await fetch(url);
         const data = await response.json();
-        if (data.results) {
-            displayMovies(data.results);
+        if (data.Search) {
+            displayMovies(data.Search);
         } else {
             console.error('No movies found.');
         }
@@ -89,7 +78,6 @@ async function fetchMovies(query) {
     }
 }
 
-
 // Display Movies
 function displayMovies(movies) {
     moviesSection.innerHTML = '';
@@ -97,24 +85,27 @@ function displayMovies(movies) {
         const movieCard = document.createElement('div');
         movieCard.classList.add('movie-card');
         movieCard.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-            <h3>${movie.title}</h3>
-            <p>Release Date: ${movie.release_date}</p>
+            <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'placeholder.jpg'}" alt="${movie.Title}">
+            <h3>${movie.Title}</h3>
+            <p>Year: ${movie.Year}</p>
         `;
         moviesSection.appendChild(movieCard);
     });
 }
 
-// Fetch TV Shows
-async function fetchTVShows(timeWindow = 'day') {
-    const url = `${BASE_URL}/trending/tv/${timeWindow}?api_key=${API_KEY}&language=en-US`;  // Updated URL
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.results) {
-        displayTVShows(data.results);
-    } else {
-        alert('No TV shows found.');
+// Fetch TV Shows based on the query
+async function fetchTVShows(query = 'game of thrones') {
+    const url = `${BASE_URL}?apikey=${API_KEY}&s=${encodeURIComponent(query)}&type=series`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.Search) {
+            displayTVShows(data.Search);
+        } else {
+            console.error('No TV shows found.');
+        }
+    } catch (error) {
+        console.error('Error fetching TV shows:', error);
     }
 }
 
@@ -125,9 +116,9 @@ function displayTVShows(tvShows) {
         const showCard = document.createElement('div');
         showCard.classList.add('movie-card');
         showCard.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${show.poster_path}" alt="${show.name}">
-            <h3>${show.name}</h3>
-            <p>First Air Date: ${show.first_air_date}</p>
+            <img src="${show.Poster !== 'N/A' ? show.Poster : 'placeholder.jpg'}" alt="${show.Title}">
+            <h3>${show.Title}</h3>
+            <p>Year: ${show.Year}</p>
         `;
         tvShowsSection.appendChild(showCard);
     });
@@ -135,26 +126,35 @@ function displayTVShows(tvShows) {
 
 // Fetch Suggested Movies
 async function fetchSuggestedMovies() {
-    const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.results) {
-        displayMovies(data.results);
-    } else {
-        alert('No suggestions found.');
+    const url = `${BASE_URL}?apikey=${API_KEY}&s=random`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.Search) {
+            displayMovies(data.Search); // Reusing displayMovies for simplicity
+        } else {
+            console.error('No suggested movies found.');
+        }
+    } catch (error) {
+        console.error('Error fetching suggested movies:', error);
     }
 }
 
-// Handle search input (searching for movies)
-function searchMovies() {
-    const query = searchBar.value;
-    fetchMovies(query); // Trigger the fetchMovies function when the user types
-}
+// Handle search input (searching across all sections)
+searchBar.addEventListener('input', () => {
+    const query = searchBar.value.trim();
+    if (moviesPage.classList.contains('active')) {
+        fetchMovies(query || 'avengers');
+    } else if (tvShowsPage.classList.contains('active')) {
+        fetchTVShows(query || 'game of thrones');
+    } else if (suggestMePage.classList.contains('active')) {
+        fetchSuggestedMovies(); // Suggested movies do not filter by query
+    }
+});
 
-// Initialize with default Movies page
-showPage('movies');
-fetchMovies();
-
-// Add event listener for the search input field
-searchBar.addEventListener('input', searchMovies); // Call searchMovies on input
+// Initialize with the default Movies page
+document.addEventListener('DOMContentLoaded', () => {
+    setActiveLink(moviesPage);
+    updatePageTitle('Movies');
+    fetchMovies(); // Fetch default movies
+});
